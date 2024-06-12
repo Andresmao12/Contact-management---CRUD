@@ -1,0 +1,181 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 60%;
+  height: 70vh;
+  box-shadow: 0 0 8px -3px #fff;
+  position: relative;
+}
+
+nav {
+  width: 100%;
+  padding: 8px 5px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.inp-container {
+  flex-grow: 0.5;
+}
+
+#search + label {
+  left: 5px;
+  color: #fff;
+  transition: opacity 1s, transform 400ms;
+}
+
+#search {
+  width: 100%;
+  border-bottom: 1px solid #fff;
+  color: #fff;
+}
+
+#search:focus + label,
+#search:not(:placeholder-shown) + label {
+  transform: translateY(-200px);
+  opacity: 0;
+  transition: opacity 150ms, transform 500ms;
+}
+
+.button {
+  transition: 300ms;
+}
+
+nav button:hover {
+  background-color: #00030f;
+  box-shadow: 0 0 8px -3px #fff;
+  transition: 300ms;
+}
+
+nav button:hover .fa-plus {
+  color: #fff;
+  transition: 300ms;
+}
+
+.contact-container {
+  overflow: hidden;
+}
+
+.contacto {
+  color: #fff;
+  display: flex;
+  gap: 5px;
+  padding: 8px 5px;
+}
+
+.data {
+  max-width: 70%;
+}
+
+.photo {
+  max-width: 30%;
+  background-color: red;
+  flex-grow: 1;
+  background-position: center;
+  background-size: cover;
+}
+
+/* PANTALLA DE INGRESO */
+
+.userIn {
+  background-color: #00030f;
+  box-shadow: 0 0 8px -3px #fff;
+
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  color: #fff;
+
+  transition: 300ms;
+}
+
+form :is(.inp-container, input) {
+  width: 100%;
+  max-height: 30px;
+}
+
+form {
+  width: 80%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+
+form .inp-container input {
+  border-bottom: 1px solid #fff;
+  color: #fff;
+}
+form .inp-container label {
+  transition: 400ms;
+}
+
+form .inp-container:hover input,
+form .inp-container input:focus {
+  border: 1px solid #fff;
+  padding: 4px 4px;
+  transition: 200ms;
+}
+
+form .inp-container input:focus + label,
+form .inp-container input:not(:placeholder-shown) + label {
+  transform: translate(-8px, -20px) scale(0.8);
+  opacity: 0.8;
+  transition: 400ms;
+}
+
+#inpFile {
+  display: none;
+}
+
+.file {
+  width: 100%;
+  height: 150px;
+  flex-grow: 1;
+  border: 1px dashed #fff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fa-upload {
+  font-size: 30px;
+  opacity: 0.5;
+}
+
+form .button , #btnClose {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+form .button:hover, #btnClose:hover {
+  color: #fff;
+  background-color: #00030f;
+  box-shadow: 0 0 8px -3px #fff;
+  transition: 300ms;
+}
+
+.addHidden {
+  transform: scaley(0);
+  top: -50%;
+  transition: 200ms;
+}
+
+#btnClose{
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}

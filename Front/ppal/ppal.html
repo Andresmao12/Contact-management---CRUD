@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="ppal.css" />
+    <link rel="stylesheet" href="../general.css" />
+    <script
+      src="https://kit.fontawesome.com/07a254f7db.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <title>Contactos</title>
+  </head>
+  <body>
+    <main class="container" aria-label="">
+      <nav>
+        <div class="inp-container">
+          <input
+            type="text"
+            id="search"
+            aria-label="Search contact"
+            placeholder=" "
+          />
+          <label for="search">Search</label>
+        </div>
+        <button class="button" id="btnPlus"><i class="fa-solid fa-plus"></i></button>
+      </nav>
+
+      <section aria-label="contact section" class="contact-container">
+        <div class="contacto">
+          <div class="photo"></div>
+          <div class="data">
+            <h5>Andres Mauricio Agudelo Elorza</h5>
+            <p>telefono: 12345678</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="userIn addHidden">
+        <button id="btnClose" class="button"><i class="fa-solid fa-xmark"></i></button>
+        <h4>User in</h4>
+        <form action="">
+          <div class="inp-container">
+            <input type="text" id="name" autocomplete="off" placeholder=" "/>
+            <label for="name">Name</label>
+          </div>
+          <div class="inp-container">
+            <input type="text" id="phone" autocomplete="off" placeholder=" "/>
+            <label for="phone">Phone</label>
+          </div>
+          <div class="file">
+            <input type="file" id="inpFile" />
+            <i class="fa-solid fa-upload"></i>
+          </div>
+          <button class="button" id="btnAdd">add</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="ppal.js"></script>
+  </body>
+</html>
