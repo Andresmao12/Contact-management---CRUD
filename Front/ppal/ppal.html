@@ -23,34 +23,50 @@
             placeholder=" "
           />
           <label for="search">Search</label>
+          <button class="button" id="btnSearch">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
         </div>
-        <button class="button" id="btnPlus"><i class="fa-solid fa-plus"></i></button>
+        <button class="button" id="btnPlus">
+          <i class="fa-solid fa-plus"></i>
+        </button>
       </nav>
 
       <section aria-label="contact section" class="contact-container">
-        <div class="contacto">
+        <!-- <div class="contacto">
           <div class="photo"></div>
           <div class="data">
-            <h5>Andres Mauricio Agudelo Elorza</h5>
+            <h5>Nombre del contacto</h5>
             <p>telefono: 12345678</p>
           </div>
-        </div>
+          <div class="btn-cont">
+            <button class="button btn-red btn-trash">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+            <button class="button btn-blue btn-edit">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </div>
+        </div> -->
       </section>
 
       <section class="userIn addHidden">
-        <button id="btnClose" class="button"><i class="fa-solid fa-xmark"></i></button>
+        <button id="btnClose" class="button btn-red">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
         <h4>User in</h4>
-        <form action="">
+        <form action="" id="form">
           <div class="inp-container">
-            <input type="text" id="name" autocomplete="off" placeholder=" "/>
+            <input type="text" id="name" name="name" autocomplete="off" placeholder=" " />
             <label for="name">Name</label>
           </div>
           <div class="inp-container">
-            <input type="text" id="phone" autocomplete="off" placeholder=" "/>
+            <input type="text" id="phone" name="phone" autocomplete="off" placeholder=" " />
             <label for="phone">Phone</label>
           </div>
           <div class="file">
-            <input type="file" id="inpFile" />
+            <input type="file" id="inpFile" name="file"/>
+            <span class="textFile"></span>
             <i class="fa-solid fa-upload"></i>
           </div>
           <button class="button" id="btnAdd">add</button>
