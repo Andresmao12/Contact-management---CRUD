@@ -31,7 +31,7 @@ async function add(req, res) {
   const phone = req.body.phone;
   const photo = req.file;
 
-  if (name == '' || phone == '' || !photo) {
+  if (name == "" || phone == "" || !photo) {
     return res
       .status(400)
       .send({ status: "error", message: "Data incomplete" });
@@ -58,9 +58,11 @@ async function add(req, res) {
         .send({ status: "error", message: "An error in the query" });
     } else {
       return res
-      .status(200)
-      .send({ status: "success", message: "Se añadio el registro correctamente" });
-      // return upload();
+        .status(200)
+        .send({
+          status: "success",
+          message: "Se añadio el registro correctamente",
+        });
     }
   });
 }
@@ -79,7 +81,7 @@ async function processFile(file) {
 async function returnAll(req, res) {
   const getDB = `
           SELECT * FROM contacts 
-          ORDER BY name
+          ORDER BY UPPER(name)
       `;
   db.all(getDB, (err, rows) => {
     if (err) {
@@ -131,4 +133,27 @@ async function search(req, res) {
   });
 }
 
-module.exports = { add, returnAll };
+async function deleteContact(req, res) {
+  const { id } = req.body;
+
+  if (!id) {
+    return res.status(400).send({ status: "error", message: "ID is required" });
+  }
+
+  sqlDelete = `
+  DELETE FROM contacts WHERE Id = ?
+  `;
+  db.run(sqlDelete, [id], (err) => {
+    if (err) {
+      return res
+        .status(400)
+        .send({ status: "error", message: "An error deleting contact" });
+    } else {
+      return res
+        .status(200)
+        .send({ status: "success", message: "Deleting success" });
+    }
+  });
+}
+
+module.exports = { add, deleteContact, returnAll };

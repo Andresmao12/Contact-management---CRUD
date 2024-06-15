@@ -57,8 +57,12 @@ dropArea.addEventListener("drop", (e) => {
   dropArea.classList.remove("active");
   dropArea.querySelector("span").textContent = "";
   dropArea.querySelector("span").classList.add("hidden");
+  dropArea.querySelector(".fa-upload").classList.remove("hidden");
 
   inpFile.files = e.dataTransfer.files;
+
+  const URLimage = URL.createObjectURL(inpFile.files[0]);
+  dropArea.style.backgroundImage = `url(${URLimage})`;
 });
 
 btnAdd.addEventListener("click", async (e) => {
@@ -105,24 +109,24 @@ async function update() {
   const res = await fetch(url + "/returnAll");
   const data = await res.json();
 
-  console.log(data);
 
   if (res.status == 200) {
     let elements = ``;
 
+    
     data.data.forEach((contact) => {
       const element = `
-      <div class="contacto">
+      <div class="contacto" data-id="${contact.Id}">
           <div class="photo" style = "background-image: url(${contact.photo});"></div>
           <div class="data">
             <h5>${contact.name}</h5>
             <p>telefono:${contact.phone}</p>
           </div>
           <div class="btn-cont">
-            <button class="button btn-red btn-trash">
+            <button class="button btn-red btn-trash" data-id="${contact.Id}">
               <i class="fa-solid fa-trash"></i>
             </button>
-            <button class="button btn-blue btn-edit">
+            <button class="button btn-blue btn-edit" data-id="${contact.Id}">
               <i class="fa-solid fa-pen-to-square"></i>
             </button>
           </div>
@@ -137,19 +141,38 @@ async function update() {
   }
 }
 
-inpFile.addEventListener("change", async () => {
-  const reader = new FileReader();
+inpFile.addEventListener("change", () => {
+  const URLimage = URL.createObjectURL(inpFile.files[0]);
+  dropArea.style.backgroundImage = `url(${URLimage})`;
+});
 
-  const url = await new Promise((rej, res) => {
-    reader.onload = () => res(reader.result);
-    reader.onerror = () => rej(false);
+const contactArea = document.querySelector(".contact-container");
 
-    reader.readAsDataURL(inpFile.files[0]);
-  });
+contactArea.addEventListener("click", (e) => {
+  const trash = e.target.closest(".btn-trash");
+  const edit = e.target.closest(".btn-edit");
 
-  if (url) {
-    dropArea.setAttribute("background-image", `url(${url})`);
-  } else {
-    console.log("Ocurrio un error leyendo la imagen");
+  if (trash) {
+    const id = trash.getAttribute("data-id");
+    deleteContact(id);
+  } else if (edit) {
+    const id = edit.getAttribute("data-id");
+    deleteContact(id);
   }
 });
+
+async function deleteContact(id) {
+  const res = await fetch(url + "/delete", {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id }),
+  });
+  const data = await res.json();
+
+  if (res.status == 200) {
+    console.log("Se elimino correctamente");
+    update();
+  } else if (res.status == 400) {
+    console.log("Ocurio un error eliminando");
+  }
+}
