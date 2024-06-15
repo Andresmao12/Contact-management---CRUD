@@ -57,19 +57,61 @@
         <h4>User in</h4>
         <form action="" id="form">
           <div class="inp-container">
-            <input type="text" id="name" name="name" autocomplete="off" placeholder=" " />
+            <input
+              type="text"
+              id="name"
+              name="name"
+              autocomplete="off"
+              placeholder=" "
+            />
             <label for="name">Name</label>
           </div>
           <div class="inp-container">
-            <input type="text" id="phone" name="phone" autocomplete="off" placeholder=" " />
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              autocomplete="off"
+              placeholder=" "
+            />
             <label for="phone">Phone</label>
           </div>
           <div class="file">
-            <input type="file" id="inpFile" name="file"/>
+            <input type="file" id="inpFile" name="file" />
             <span class="textFile"></span>
             <i class="fa-solid fa-upload"></i>
           </div>
           <button class="button" id="btnAdd">add</button>
+        </form>
+      </section>
+
+      <section class="edit-cont addHidden">
+        <button id="btnClose2" class="button btn-red">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h3>EDIT CONTACT</h3>
+        <form action="" id="formEdit">
+          <div class="inp-container">
+            <input
+              type="text"
+              id="editName"
+              name="name"
+              autocomplete="off"
+              placeholder=" "
+            />
+            <label for="name">Name</label>
+          </div>
+          <div class="inp-container">
+            <input
+              type="text"
+              id="editPhone"
+              name="phone"
+              autocomplete="off"
+              placeholder=" "
+            />
+            <label for="phone">Phone</label>
+          </div>
+          <button type="submit" class="button btnEdit">Send</button>
         </form>
       </section>
     </main>

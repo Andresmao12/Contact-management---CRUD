@@ -95,25 +95,22 @@ btnSearch.addEventListener("click", async (e) => {
   const valueSearch = inpSearch.value;
 
   const res = fetch(url + "/search", {
-    method: "POST",
+    method: "GET",
     headers: "application/json",
     body: JSON.stringify(valueSearch),
   });
 
   const data = await res.json();
 
-  console.log(data);
 });
 
 async function update() {
   const res = await fetch(url + "/returnAll");
   const data = await res.json();
 
-
   if (res.status == 200) {
     let elements = ``;
 
-    
     data.data.forEach((contact) => {
       const element = `
       <div class="contacto" data-id="${contact.Id}">
@@ -157,7 +154,7 @@ contactArea.addEventListener("click", (e) => {
     deleteContact(id);
   } else if (edit) {
     const id = edit.getAttribute("data-id");
-    deleteContact(id);
+    editContact(id);
   }
 });
 
@@ -175,4 +172,36 @@ async function deleteContact(id) {
   } else if (res.status == 400) {
     console.log("Ocurio un error eliminando");
   }
+}
+
+const screenEdit = document.querySelector(".edit-cont");
+const btnClose2 = document.getElementById("btnClose2");
+
+btnClose2.addEventListener("click", () => {
+  screenEdit.classList.add("addHidden");
+});
+
+async function editContact(id) {
+  screenEdit.classList.remove("addHidden");
+
+  document.querySelector(".btnEdit").addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("editName").value;
+    const phone = document.getElementById("editPhone").value;
+    console.log(name, phone);
+    const res = await fetch(url + "/update", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, name, phone }),
+    });
+
+    const data = await res.json();
+
+    if (res.status == 200) {
+      update();
+    } else {
+      console.log(data.message);
+    }
+  });
 }

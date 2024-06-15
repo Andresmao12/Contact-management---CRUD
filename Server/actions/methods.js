@@ -156,4 +156,31 @@ async function deleteContact(req, res) {
   });
 }
 
-module.exports = { add, deleteContact, returnAll };
+async function editContact(req, res) {
+  const { id, name, phone } = req.body;
+
+  if (!id || !name || !phone) {
+    return res.status(400).send({ status: "error", message: "Data required" });
+  }
+
+  sqlUpdate = `
+  UPDATE contacts 
+  SET name = ?, phone = ?
+  WHERE Id = ?
+  `;
+  db.run(sqlUpdate, [name, phone, id], (err) => {
+    if (err) {
+      console.log(err)
+      return res
+        .status(400)
+        .send({ status: "error", message: "An error edit contact" });
+    } else {
+      return res
+        .status(200)
+        .send({ status: "success", message: "Update success" });
+    }
+  });
+}
+
+
+module.exports = { add, deleteContact, editContact, returnAll };
