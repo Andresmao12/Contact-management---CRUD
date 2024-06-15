@@ -94,14 +94,42 @@ btnSearch.addEventListener("click", async (e) => {
 
   const valueSearch = inpSearch.value;
 
-  const res = fetch(url + "/search", {
-    method: "GET",
-    headers: "application/json",
-    body: JSON.stringify(valueSearch),
-  });
+  const res = await fetch(url + `/search?name=${encodeURIComponent(valueSearch)}`);
 
   const data = await res.json();
 
+  if (res.status == 200) {
+    let elements = ``;
+
+    data.data.forEach((contact) => {
+      const element = `
+      <div class="contacto" data-id="${contact.Id}">
+          <div class="photo" style = "background-image: url(${contact.photo});"></div>
+          <div class="data">
+            <h5>${contact.name}</h5>
+            <p>telefono:${contact.phone}</p>
+          </div>
+          <div class="btn-cont">
+            <button class="button btn-red btn-trash" data-id="${contact.Id}">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+            <button class="button btn-blue btn-edit" data-id="${contact.Id}">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </div>
+        </div>
+        `;
+      elements += element;
+    });
+    document.querySelector(".contact-container").innerHTML = elements;
+  } else if (res.status == 400) {
+    document.querySelector(".contact-container").innerHTML =
+      "<h4>Without registers</h4>";
+  }
+});
+
+inpSearch.addEventListener("input", () => {
+  btnSearch.click();
 });
 
 async function update() {

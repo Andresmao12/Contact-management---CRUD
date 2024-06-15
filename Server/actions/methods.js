@@ -57,12 +57,10 @@ async function add(req, res) {
         .status(400)
         .send({ status: "error", message: "An error in the query" });
     } else {
-      return res
-        .status(200)
-        .send({
-          status: "success",
-          message: "Se añadio el registro correctamente",
-        });
+      return res.status(200).send({
+        status: "success",
+        message: "Se añadio el registro correctamente",
+      });
     }
   });
 }
@@ -106,21 +104,22 @@ async function returnAll(req, res) {
 }
 
 async function search(req, res) {
-  const { data } = req.body;
-
   const searchDB = `
-        SELECT * FROM contacts WHERE name LIKE "%?%"
-    `;
-  db.all(searchDB, [data], (err, rows) => {
+          SELECT * FROM contacts 
+          WHERE name LIKE ?
+      `;
+
+  const name = `%${req.query.name}%`;
+  db.all(searchDB, [name], (err, rows) => {
     if (err) {
       console.log("An error occurred while querying the database - search");
       return res
         .status(400)
         .send({ status: "error", message: "An error in the query" });
-    } else if (!rows) {
-      return res.status(200).send({
+    } else if (rows.length == 0) {
+      return res.status(400).send({
         status: "success",
-        message: "Contact not found",
+        message: "Without registers",
         data: undefined,
       });
     } else {
@@ -170,7 +169,7 @@ async function editContact(req, res) {
   `;
   db.run(sqlUpdate, [name, phone, id], (err) => {
     if (err) {
-      console.log(err)
+      console.log(err);
       return res
         .status(400)
         .send({ status: "error", message: "An error edit contact" });
@@ -182,5 +181,4 @@ async function editContact(req, res) {
   });
 }
 
-
-module.exports = { add, deleteContact, editContact, returnAll };
+module.exports = { add, deleteContact, editContact, search,returnAll };
