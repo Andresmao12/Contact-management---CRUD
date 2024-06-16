@@ -94,7 +94,9 @@ btnSearch.addEventListener("click", async (e) => {
 
   const valueSearch = inpSearch.value;
 
-  const res = await fetch(url + `/search?name=${encodeURIComponent(valueSearch)}`);
+  const res = await fetch(
+    url + `/search?name=${encodeURIComponent(valueSearch)}`
+  );
 
   const data = await res.json();
 
@@ -102,9 +104,14 @@ btnSearch.addEventListener("click", async (e) => {
     let elements = ``;
 
     data.data.forEach((contact) => {
+      console.log(contact.photo);
+      const image = url + `/${contact.photo}`;
+      console.log(image);
       const element = `
       <div class="contacto" data-id="${contact.Id}">
-          <div class="photo" style = "background-image: url(${contact.photo});"></div>
+          
+          <img src="${image}" alt="Image">
+          
           <div class="data">
             <h5>${contact.name}</h5>
             <p>telefono:${contact.phone}</p>
@@ -140,9 +147,14 @@ async function update() {
     let elements = ``;
 
     data.data.forEach((contact) => {
+      console.log(contact.photo);
+      const image = url + `/${contact.photo}`;
+      console.log(image);
       const element = `
       <div class="contacto" data-id="${contact.Id}">
-          <div class="photo" style = "background-image: url(${contact.photo});"></div>
+          
+          <img src="${image}" alt="Image">
+          
           <div class="data">
             <h5>${contact.name}</h5>
             <p>telefono:${contact.phone}</p>
@@ -211,12 +223,21 @@ btnClose2.addEventListener("click", () => {
 
 async function editContact(id) {
   screenEdit.classList.remove("addHidden");
+  const inpName = document.getElementById("editName");
+  const inpPhone = document.getElementById("editPhone");
+
+  const res = await fetch(url + `/returnOne?id=${id}`);
+  const data = await res.json();
+
+  console.log(data);
+  inpName.value = data.data.name;
+  inpPhone.value = data.data.phone;
 
   document.querySelector(".btnEdit").addEventListener("click", async (e) => {
     e.preventDefault();
 
-    const name = document.getElementById("editName").value;
-    const phone = document.getElementById("editPhone").value;
+    const name = inpName.value;
+    const phone = inpPhone.value;
     console.log(name, phone);
     const res = await fetch(url + "/update", {
       method: "PUT",
@@ -228,6 +249,7 @@ async function editContact(id) {
 
     if (res.status == 200) {
       update();
+      screenEdit.classList.add("addHidden");
     } else {
       console.log(data.message);
     }

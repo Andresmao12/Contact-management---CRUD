@@ -1,4 +1,6 @@
 const sqlite = require("sqlite3");
+const path = require("path");
+const fs = require("fs");
 
 const db = new sqlite.Database("db/contacts.db", sqlite.OPEN_READWRITE, (e) => {
   if (e) {
@@ -30,6 +32,7 @@ async function add(req, res) {
   const name = req.body.name;
   const phone = req.body.phone;
   const photo = req.file;
+  console.log(photo);
 
   if (name == "" || phone == "" || !photo) {
     return res
@@ -73,7 +76,10 @@ async function processFile(file) {
     return false;
   }
 
-  return `/images/${file.filename}`;
+  const newPath = `images/${file.originalname}`;
+  fs.renameSync(file.path, newPath);
+
+  return newPath
 }
 
 async function returnAll(req, res) {
@@ -181,4 +187,31 @@ async function editContact(req, res) {
   });
 }
 
-module.exports = { add, deleteContact, editContact, search,returnAll };
+async function returOne(req, res) {
+  const getDB = `
+          SELECT * FROM contacts 
+          WHERE id = ?
+      `;
+  db.get(getDB, [req.query.id],(err, rows) => {
+    if (err) {
+      console.log("An error occurred while querying the database - search");
+      return res
+        .status(400)
+        .send({ status: "error", message: "An error in the query" });
+    } else if (rows.length == 0) {
+      return res.status(400).send({
+        status: "success",
+        message: "Without registers",
+        data: undefined,
+      });
+    } else {
+      return res.status(200).send({
+        status: "success",
+        message: "Conection successfull",
+        data: rows,
+      });
+    }
+  });
+}
+
+module.exports = { add, deleteContact, editContact, search, returnAll, returOne };
