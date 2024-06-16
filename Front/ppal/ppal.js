@@ -233,7 +233,7 @@ async function editContact(id) {
   inpName.value = data.data.name;
   inpPhone.value = data.data.phone;
 
-  document.querySelector(".btnEdit").addEventListener("click", async (e) => {
+  document.getElementById("formEdit").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const name = inpName.value;
